@@ -19,11 +19,12 @@ export default function App(){
     }
     // desenha cada item
     const renderItem = ({item}) => (
-        <View> 
-            <Text> {item.titulo} </Text>
+        <View style={styles.item}> 
+            <Text style={styles.textoItem}> {item.titulo} </Text>
             <TouchableOpacity 
-                onPress={ () => removerTarefa(item.id)}>
-                <Text> Apagar </Text>
+                onPress={ () => removerTarefa(item.id)}
+                style={styles.botaoRemover}>
+                <Text style={styles.textoBotaoRemover}> Apagar </Text>
             </TouchableOpacity>
         </View>
     )
@@ -36,16 +37,17 @@ export default function App(){
         )
     }
     return (
-        <SafeAreaProvider>
+        <SafeAreaProvider style={styles.container}>
             <StatusBar barStyle="dark-content"/>
-            <Text> Minhas Tarefas </Text>
-            <View>
+            <Text style={styles.titulo}> Minhas Tarefas </Text>
+            <View style={styles.areaInput}>
                 <TextInput 
+                    style={styles.input}
                     value={tarefa} 
                     onChangeText={setTarefa} placeholder="O que precisa ser feito?"
                     />
-                <TouchableOpacity onPress={adicionaTarefa}>
-                    <Text> + </Text>
+                <TouchableOpacity style = {styles.botaoAdd} onPress={adicionaTarefa}>
+                    <Text style={styles.textoBotaoAdd}> + </Text>
                 </TouchableOpacity>
             </View>
             <FlatList 
@@ -53,14 +55,53 @@ export default function App(){
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 ListEmptyComponent={
-                    <View>
-                        <Text> Sua lista está vazia </Text>
-                        <Text> Adicione tarefas </Text>
+                    <View style={styles.vazioContainer}>
+                        <Text style={styles.vazioTexto}> Sua lista está vazia </Text>
+                        <Text style={styles.vazioTexto}> Adicione tarefas </Text>
                     </View>
                 }/>
         </SafeAreaProvider>
     )
 }
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1, padding: 30, backgroundColor: "#F3F4F6",
+    },
+    titulo: {
+        fontSize: 28, fontWeight: "bold", marginVertical: 20, color: "#1F2937", textAlign: "left", 
+    },
+    areaInput: {
+        flexDirection: "row", alignItems: "center", marginBottom: 25
+    },
+    input: {
+        flex: 1, height: 50, backgroundColor: "#fff", borderRadius: 12, paddingHorizontal: 15,
+        fontSize: 16, borderWidth: 1, borderColor: "#E5E7EB"
+    },
+    botaoAdd: {
+        width: 50, height: 50, marginLeft: 10, backgroundColor: "#4F46E5", borderRadius: 12,
+        alignItems: "center", justifyContent: "center", elevation: 3
+    },
+    textoBotaoAdd: {
+        color: "#fff", fontSize: 24, fontWeight: "bold"
+    },
+    vazioContainer: {
+        marginTop: 50, alignItems: "center"
+    },
+    vazioTexto: {
+        fontSize: 18, color: "#9CA3AF", fontWeight: "bold"
+    },
+    item: {
+        flexDirection: "row", justifyContent: "space-between", alignItems: "center",
+        padding: 16, backgroundColor: "#fff", marginBottom: 10, borderRadius: 12, 
+        borderLeftWidth: 5, borderLeftColor: "#4F46E5"
+    },
+    textoItem: {
+        fontSize: 16, color: "#374151", flex: 1
+    },
+    botaoRemover: {
+        paddingVertical: 6, paddingHorizontal: 12, backgroundColor: "#FEE2E2", borderRadius: 8
+    },
+    textoBotaoRemover: {
+        color: "#DC2626", fontSize: 12, fontWeight: "bold"
+    }
 })
