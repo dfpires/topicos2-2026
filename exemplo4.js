@@ -53,11 +53,15 @@ export default function App(){
                 <MaterialCommunityIcons name="check-circle-outline" size={20} color="#6366F1"/>
                 <Text style={styles.textoItem}> {item.nome} </Text>
             </View>
-            <TouchableOpacity style={styles.botaoRemover}>
+            <TouchableOpacity onPress={() => removerTarefa(item.id)} style={styles.botaoRemover}>
                 <MaterialCommunityIcons name="trash-can-outline" size={22} collor="#EF4444"/>
             </TouchableOpacity>
         </View>
     )
+    const removerTarefa = (id) => {
+        // como alterou a lista de tarefas, a função useEffect vai ser executada automaticamente
+        setTarefas( (prev) => prev.filter( (t) => t.id != id))
+    }
     return (
         <SafeAreaProvider style={styles.container}>
             <StatusBar barStyle="dark-content"/>
@@ -98,5 +102,18 @@ const styles = StyleSheet.create({
     botao: {
         width: 55, height: 55, backgroundColor: "#6366F1", borderRadius: 15, marginLeft: 10, 
         justifyContent: "center", alignItems: "center"
+    },
+    itemLista: {
+        flexDirection: "row", backgroundColor: "#FFF", padding: 15, borderRadius: 15, marginBottom: 12,
+        alignItems: "center", justifyContent: "space-between", borderWidth: 1, borderColor: "#F1F5F9"
+    },
+    conteudoItem: {
+        flexDirection: "row", alignItems: "center", flex: 1
+    },
+    textoItem: {
+        fontSize: 16, color: "#475569", margin: 10
+    },
+    botaoRemover: {
+        padding: 5,
     }
 })
