@@ -1,7 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import {Text, View, StatusBar, TouchableOpacity, TextInput} from "react-native"
+import {Text, View, StatusBar, TouchableOpacity, TextInput, StyleSheet, FlatList} from "react-native"
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {useState, useEffect} from "react"
+import {MaterialCommunityIcons} from "@expo/vector-icons"
+
 const STORAGEY_KEY = "@lista_tarefas"
 
 export default function App(){
@@ -33,7 +35,7 @@ export default function App(){
             catch (e) {
                 alert.alert("Erro", "Não foi possível salvar as tarefas")
             }
-        })
+        })()
      }, [tarefas])
      
     const adicionaTarefa = () => {
@@ -45,24 +47,56 @@ export default function App(){
         setTarefas([...tarefas, nova])
         setTarefa("")
     }
-    return (
-        <SafeAreaProvider>
-            <StatusBar barStyle="dark-content"/>
-            <View>
-                <TextInput value={tarefa} onChangeText={setTarefa}/>
-                <TouchableOpacity onPress={adicionaTarefa}>
-                    <Text> Adiciona </Text>
-                </TouchableOpacity>
-
-                <Text> 
-                    Lista de tarefas 
-                    {
-                        tarefas.length > 0 ?
-                        tarefas.map ( (t, index) => `${t.nome}`) :
-                        "Nenhuma tarefa salva"
-                    } 
-                </Text>
+    const renderItem = ({item}) => (
+        <View style={styles.itemLista}>
+            <View style={styles.conteudoItem}>
+                <MaterialCommunityIcons name="check-circle-outline" size={20} color="#6366F1"/>
+                <Text style={styles.textoItem}> {item.nome} </Text>
             </View>
+            <TouchableOpacity style={styles.botaoRemover}>
+                <MaterialCommunityIcons name="trash-can-outline" size={22} collor="#EF4444"/>
+            </TouchableOpacity>
+        </View>
+    )
+    return (
+        <SafeAreaProvider style={styles.container}>
+            <StatusBar barStyle="dark-content"/>
+            <View style={styles.header}>
+                <MaterialCommunityIcons name="database-sync" size={32} color="#6366F1"/>
+                <Text style={styles.titulo}> Tarefas persistentes </Text>
+            </View>
+            <View style={styles.entrada}>    
+                <TextInput style={styles.caixaEntrada} placeholder="O que vamos guardar hoje?" value={tarefa} onChangeText={setTarefa}/>
+                <TouchableOpacity style={styles.botao} onPress={adicionaTarefa}>
+                    <MaterialCommunityIcons name="plus" size={28} color="#FFF"/>
+                </TouchableOpacity>
+            </View>
+            <FlatList 
+                data={tarefas} 
+                keyExtrator={(item) => item.id} 
+                renderItem={renderItem}/>
         </SafeAreaProvider>
     )
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, backgroundColor: "#F8FAFC", padding: 20
+    },
+    header: {
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 30, marginBottom: 20 
+    },
+    titulo: {
+        fontSize: 22, fontWeight: "800", color: "#1E293B", marginLeft: 10
+    },
+    entrada: {
+        flexDirection: 'row', marginBottom: 25
+    },
+    caixaEntrada: {
+        flex: 1, height: 55, backgroundColor: "#FFF", borderRadius: 15, paddingHorizontal: 20,
+        fontSize: 16, color: "#334155"
+    },
+    botao: {
+        width: 55, height: 55, backgroundColor: "#6366F1", borderRadius: 15, marginLeft: 10, 
+        justifyContent: "center", alignItems: "center"
+    }
+})
