@@ -49,6 +49,10 @@ function DetailScreen({route, navigation}){
                 <Text> Nome: </Text> <Text> {nome} </Text>
                 <Text> E-Mail: </Text> <Text> {email} </Text>
             </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <MaterialCommunityIcons name="chevron-left" size={24} color="#FFF"/>
+                <Text> Voltar e Editar </Text>
+            </TouchableOpacity>
         </View>
     )
 }
