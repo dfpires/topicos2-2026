@@ -34,7 +34,19 @@ class _CalculadoraIMCState extends State<CalculadoraIMC> {
       double altura = double.parse(_alturaController.text); // converte o texto do campo de altura para um número
       double imc = peso / (altura * altura); // calcula o IMC usando a fórmula: peso / (altura^2)
       _resultado = 'IMC: ${imc.toStringAsFixed(2)}'; // formata o resultado do IMC para 2 casas decimais
-
+      if (imc < 18.5) {
+        _classificacao = 'Abaixo do peso'; // classificação para IMC abaixo de 18.5
+      } else if (imc < 25) {
+        _classificacao = 'Peso ideal'; // classificação para IMC entre 18.5 e 24.9
+      } else if (imc < 30) {
+        _classificacao = 'Levemente acima do peso'; // classificação para IMC entre 25 e 29.9
+      } else if (imc < 35){
+        _classificacao = 'Obesidade Grau I'; // classificação para IMC de 30 ou mais
+      } else if (imc < 40){
+        _classificacao = 'Obesidade Grau II'; // classificação para IMC de 35 ou mais
+      } else {
+        _classificacao = 'Obesidade Grau III'; // classificação para IMC de 40 ou mais
+      }
     });
   }
 
