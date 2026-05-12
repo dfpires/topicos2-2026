@@ -86,6 +86,13 @@ class TelaResumo extends StatelessWidget {
             Text("Olá, $nome", style: TextStyle(fontSize: 24)),
             SizedBox(height: 10),
             Text("Seu investimento é de $valor", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Voltar e Editar', // Estilo dentro do Text
+              ),
+            ),
           ],
         ),
       ),
